@@ -1,0 +1,3 @@
+[TESTSI]
+server_test  ansible_host=192.168.0.38
+server_prod  ansible_host=192.168.0.37

@@ -1,0 +1,17 @@
+---
+- name: PlPlPllaybook
+  hosts: all
+  become: yes
+
+  vars:
+          mytext: "sometextmessage"
+
+  tasks:
+  - name: Ping
+    ping: 
+
+  - name: Create Folders
+    include: create_folders.yml
+
+  - name: Create Files
+    include: create_files.yml

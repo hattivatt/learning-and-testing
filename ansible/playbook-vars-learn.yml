@@ -1,0 +1,35 @@
+---
+- name: My Variable Playbook
+  hosts: all
+  become: yes
+
+
+  vars:
+          message1: Hello
+          message2: World
+          secret: TOP_SECRET_VARIABLE
+
+  tasks:
+  - name: Print Secret Variable
+    debug:
+            var: secret
+
+  - debug:
+          msg: "Secret word: {{ secret }}"
+
+  - debug:
+          msg: "Owner is: {{ owner }}"
+
+  - set_fact: full_msg="{{ message1 }} {{ message2 }} from {{ owner }}"
+
+  - debug:
+          var: full_msg
+
+  - debug:
+          msg: "{{ ansible_os_family }}"
+
+  - shell: uptime
+    register: results
+
+  - debug:
+          var: results

@@ -1,0 +1,21 @@
+---
+- name: Error Handling example
+  hosts: all
+  become: yes
+  any_errors_fatal: true
+
+  tasks:
+  - name: Task 1
+    apt: name=treeeee state=latest
+    ignore_errors: yes
+
+  - name: Task 2
+    shell: cat /home/test/myfile.txt
+    register: result
+
+  - debug:
+          var: result
+
+
+  - name: Task 3
+    shell: echo Privet Mirer

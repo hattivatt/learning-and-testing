@@ -1,0 +1,7 @@
+---
+- name: Install nginx and upload webpage
+  hosts: "{{ MYHOSTS }}"
+  become: yes
+
+  roles:
+  - { role: deploy_nginx, when: ansible_system == 'Linux' }

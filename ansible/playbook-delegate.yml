@@ -1,0 +1,45 @@
+---
+- name: Playbook Delegate
+  hosts: all
+  become: yes
+
+  vars:
+          mytext: "somerandomtext"
+
+  tasks:
+  - name: Ping test
+    ping: 
+
+  - name: Unregister Serv from LB
+    shell: echo This server {{ inventory_hostname }} was unregistered, nodename is {{ ansible_nodename }} >> /home/log.txt
+    delegate_to: 127.0.0.1
+
+  - name: Create file1
+    copy:
+            dest: /home/file1.txt
+            content: |
+                    This is FileN1
+                    On ENGLISH Hello World
+                    On RUSSIAN {{ mytext }}
+    delegate_to: ubu2
+
+  - name: Create file2
+    copy:
+            dest: /home/file2.txt
+            content: |
+                    This is FileN2
+                    On ENGLISH Hello World
+                    On RUSSIAN {{ mytext }}
+
+  - name: reboot servers
+    shell: sleep 3 && reboot now
+    async: 1
+    poll: 0
+
+  - name: Wait till servers comes up
+    wait_for:
+            host: "{{ inventory_hostname }}"
+            state: started
+            delay: 5
+            timeout: 40
+    delegate_to: 127.0.0.1

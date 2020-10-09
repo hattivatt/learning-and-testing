@@ -1,0 +1,11 @@
+---
+- name: folders creating
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: Create jenkins folder
+    file:
+          path: /home/test/jenkins
+          state: directory
+          mode: 0755

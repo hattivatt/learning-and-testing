@@ -1,0 +1,23 @@
+---
+# tasks file for deploy_nginx
+- name: Check and print version
+  debug: var=ansible_os_family
+
+- block:
+
+  - name: Install nginx ubuntu
+    apt: name=nginx state=latest
+  when: ansible_os_family == "Debian"
+
+- block:
+
+  - name: Install nginx redhat
+    yum: name=nginx state=latest
+  when: ansible_os_family == "RedHat"
+
+- name: Generate page 
+  template: src=index.j2 dest={{ dest_file }}/index.html mode=0555
+  notify: Restart nginx
+
+- name: Start and enable nginx service
+  service: name=nginx state=started enabled=yes

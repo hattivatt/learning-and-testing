@@ -1,0 +1,11 @@
+---
+- name: Install java for jenkins nodes
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: Install java
+    apt:
+            name: openjdk-8-jre
+            state: latest
+            update_cache: yes

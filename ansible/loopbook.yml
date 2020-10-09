@@ -1,0 +1,24 @@
+---
+- name: Loops
+  hosts: ubu2
+  become: yes
+
+  tasks:
+  - name: Say hello to mlf
+    debug: msg="Hello, {{ item }}"
+    loop:
+    - "mlf1"
+    - "mlf2"
+    - "mlf3"
+    - "mlf4"
+
+  - name: Loop Until
+    shell: echo -n Z >> myfile.txt && cat myfile.txt
+    register: output
+    delay: 2
+    retries: 10
+    until: output.stdout.find("ZZZZ") == false
+
+  - name: Print Final Output
+    debug:
+            var: output.stdout

@@ -1,0 +1,27 @@
+---
+- name: Vault Playbook
+  hosts: all
+  become: yes
+
+  vars:
+          admin_pass: !vault |
+           $ANSIBLE_VAULT;1.1;AES256
+           65646163333831646638616334336632653138356430373932313135313430653064313561363039
+           3735643266646464353134363063383066373665656365620a653634313163393435623633333236
+           62633935613665303934326164333837336633323435323733306132363530326337623534346338
+           3436323534616430620a326663313532306261343830666335613863626562353030346163323564
+           3533
+
+  tasks:
+  - name: install tree
+    apt: name=tree state=latest
+
+  - name: Create config
+    copy:
+            dest: /home/test/myconfig.conf
+            content: |
+                    port = 9092
+                    log = 7days
+                    home = /opt/kafka/bin
+                    user = admin
+                    password = {{ admin_pass }}
