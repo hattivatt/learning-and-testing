@@ -1,0 +1,13 @@
+#Dockerfile to build container for fari https://github.com/fariapp/fari
+
+FROM node:12.16.3-alpine
+
+RUN mkdir /fari
+WORKDIR /fari
+COPY . /fari
+
+RUN yarn install 
+RUN yarn build
+EXPOSE 1234
+ENTRYPOINT ["/usr/local/bin/yarn", "start"]
+#ENTRYPOINT yarn start
